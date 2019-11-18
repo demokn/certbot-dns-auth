@@ -1,2 +1,5 @@
 .idea/
 vendor/
+
+scripts/*/authenticator.sh
+scripts/*/cleanup.sh

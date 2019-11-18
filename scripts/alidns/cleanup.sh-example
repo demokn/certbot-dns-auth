@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# Enable debug mode
+#set -x
+
+# Default value
+RR=_acme-challenge
+RR_TYPE=TXT
+
+# Aliyun AccessKey
+ALIYUN_APP_KEY='Your Aliyun AccessKey ID'
+ALIYUN_APP_SECRET='Your Aliyun AccessKey Secret'
+
+# Strip only the top domain
+DOMAIN=$(expr match "$CERTBOT_DOMAIN" '.*\.\(.*\..*\)')
+if [ -z "$DOMAIN" ]; then
+    DOMAIN=$CERTBOT_DOMAIN
+fi
+# Strip only the domain prefix
+DOMAIN_PREFIX=$(expr match "$CERTBOT_DOMAIN" '\(.*\)\..*\..*')
+
+if [ -n "$DOMAIN_PREFIX" ]; then
+  RR="${RR}.${DOMAIN_PREFIX}"
+fi
+
+# Remove TXT record
+ROOT_PATH=$(dirname $(dirname $(dirname $0)))
+CLEANUP_COMMAND="${ROOT_PATH}/bin/certbot-dns-auth alidns:delete"
+$CLEANUP_COMMAND $DOMAIN $RR $ALIYUN_APP_KEY $ALIYUN_APP_SECRET
