@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php
+
+$autoload = [
+    __DIR__.'/../vendor/autoload.php',
+];
+
+foreach ($autoload as $file) {
+    if (file_exists($file)) {
+        require $file;
+        break;
+    }
+}
+
+$application = new \Demokn\DnsAuth\ConsoleApplication();
+$application->run();
