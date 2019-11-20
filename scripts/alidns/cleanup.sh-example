@@ -16,9 +16,11 @@ DOMAIN=$(expr match "$CERTBOT_DOMAIN" '.*\.\(.*\..*\)')
 if [ -z "$DOMAIN" ]; then
     DOMAIN=$CERTBOT_DOMAIN
 fi
+
 # Strip only the domain prefix
 DOMAIN_PREFIX=$(expr match "$CERTBOT_DOMAIN" '\(.*\)\..*\..*')
 
+# Concat RR with domain prefix
 if [ -n "$DOMAIN_PREFIX" ]; then
   RR="${RR}.${DOMAIN_PREFIX}"
 fi
